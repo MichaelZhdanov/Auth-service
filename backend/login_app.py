@@ -16,7 +16,7 @@ def load_users():
                 username, hashed_password = line.strip().split(":")
                 users[username] = hashed_password
     except FileNotFoundError:
-        print("users.txt not found. Starting with an empty user database.")
+        print("users.txt not found.")
     return users
 
 # Function to save users to users.txt
