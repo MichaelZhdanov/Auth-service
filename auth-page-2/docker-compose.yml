@@ -6,9 +6,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "6003:6000"
+      - "5003:6000"
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
+      - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
 
@@ -17,8 +18,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "6004:6000"
+      - "5004:6000"
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
+      - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
