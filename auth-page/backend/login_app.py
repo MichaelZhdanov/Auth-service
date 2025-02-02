@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # Path to the frontend directory
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "../frontend")
+FRONTEND_DIR = 'd:\\VSRepo\\Auth-service\\auth-page\\backend\\frontend'
 
 # Function to load users from users.txt
 def load_users():
@@ -64,7 +64,7 @@ def register():
     return jsonify({"success": True, "message": "Registration successful"})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
 
 # Debugging, enable if necessary
 #if __name__ == '__main__':
