@@ -1,4 +1,3 @@
-// filepath: /d:/VSRepo/Auth-service/auth-page/backend/login_app.py
 from flask import Flask, request, jsonify, send_from_directory, abort
 import hashlib
 import os
