@@ -6,8 +6,6 @@ networks:
     ipam:
       config:
         - subnet: 172.25.0.0/24
-  haproxy-network:
-    external: true
 
 services:
   auth_service_3:
@@ -39,20 +37,3 @@ services:
     networks:
       auth-network-2:
         ipv4_address: 172.25.0.3
-
-  haproxy-2:
-    image: haproxy:2.6
-    ports:
-      - "8082:80"
-    volumes:
-      - ./haproxy-2.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    networks:
-      - auth-network-2
-      - haproxy-network
-
-  keepalived:
-    image: osixia/keepalived:latest
-    volumes:
-      - ./keepalived/keepalived.conf:/etc/keepalived/keepalived.conf
-    network_mode: "host"
-    privileged: true

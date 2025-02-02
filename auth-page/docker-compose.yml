@@ -32,44 +32,10 @@ services:
       auth-network:
         ipv4_address: 172.19.0.3
 
-  haproxy-1:
-    image: haproxy:2.6
-    ports:
-      - "8081:80"
-    volumes:
-      - ./haproxy-1.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    networks:
-      auth-network:
-        ipv4_address: 172.19.0.4
-      haproxy-network:
-        ipv4_address: 192.168.99.100
-      
-
-  keepalived:
-    image: osixia/keepalived:2.0.20
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - KEEPALIVED_INTERFACE=eth0
-      - KEEPALIVED_VIRTUAL_IPS=192.168.99.100
-      - KEEPALIVED_UNICAST_PEERS=192.168.99.101,192.168.99.102
-      - KEEPALIVED_PRIORITY=100
-      - KEEPALIVED_STATE=MASTER
-    volumes:
-      - ./keepalived.conf:/container/service/keepalived/assets/keepalived.conf
-    networks:
-      - haproxy-network
-        
-
 networks:
   auth-network:
     driver: bridge
     ipam:
       config:
         - subnet: 172.19.0.0/24
-  haproxy-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.99.0/24
 

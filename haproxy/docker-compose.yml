@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # HAProxy 1
+  haproxy-1:
+    image: haproxy:2.6
+    ports:
+      - "8081:80"
+    volumes:
+      - ./haproxy-1.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      auth-network:
+        ipv4_address: 172.19.0.10
+      haproxy-network-1:
+        ipv4_address: 192.168.99.101
+
+  # HAProxy 2
+  haproxy-2:
+    image: haproxy:2.6
+    ports:
+      - "8082:80"
+    volumes:
+      - ./haproxy-2.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      auth-network-2:
+        ipv4_address: 172.25.0.10
+      haproxy-network-2:
+        ipv4_address: 192.168.100.100
+
+  # Keepalived (for HAProxy high availability)
+  keepalived:
+    image: osixia/keepalived:2.0.20
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - KEEPALIVED_INTERFACE=eth0
+      - KEEPALIVED_VIRTUAL_IPS=192.168.101.100
+      - KEEPALIVED_UNICAST_PEERS=192.168.99.100,192.168.100.100
+      - KEEPALIVED_PRIORITY=100
+      - KEEPALIVED_STATE=MASTER
+    volumes:
+      - ./haproxy/keepalived.conf:/container/service/keepalived/assets/keepalived.conf
+    networks:
+      haproxy-network-1:
+        ipv4_address: 192.168.99.50
+      haproxy-network-2:
+        ipv4_address: 192.168.100.50
+      vip-network:
+        ipv4_address: 192.168.101.100
+
+networks:
+  auth-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+  auth-network-2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/24
+  haproxy-network-1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.99.0/24
+  haproxy-network-2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+  vip-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.101.0/24
