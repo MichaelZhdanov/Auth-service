@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, abort
 import hashlib
 import os
 
 app = Flask(__name__)
 
 # Path to the frontend directory
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "../frontend")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
 
 # Function to load users from users.txt
 def load_users():
@@ -27,45 +27,22 @@ def save_user(username, hashed_password):
 # Serve the login page
 @app.route("/")
 def serve_login():
-    return send_from_directory(FRONTEND_DIR, "login.html")
+    try:
+        return send_from_directory(FRONTEND_DIR, "login.html")
+    except FileNotFoundError:
+        app.logger.error("login.html not found in %s", FRONTEND_DIR)
+        abort(404)
 
 # Serve the registration page
 @app.route("/register")
 def serve_register():
-    return send_from_directory(FRONTEND_DIR, "register.html")
+    try:
+        return send_from_directory(FRONTEND_DIR, "register.html")
+    except FileNotFoundError:
+        app.logger.error("register.html not found in %s", FRONTEND_DIR)
+        abort(404)
 
 # Handle login requests
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    username = data.get('username')
-    password_hash = data.get('password')
 
-    users = load_users()
-
-    if username in users and users[username] == password_hash:
-        return jsonify({"success": True, "message": "Login successful"})
-    else:
-        return jsonify({"success": False, "message": "Invalid username or password"}), 401
-
-# Handle registration requests
-@app.route('/register', methods=['POST'])
-def register():
-    data = request.get_json()
-    username = data.get('username')
-    password_hash = data.get('password')
-
-    users = load_users()
-
-    if username in users:
-        return jsonify({"success": False, "message": "Username already exists"}), 400
-
-    save_user(username, password_hash)
-    return jsonify({"success": True, "message": "Registration successful"})
-
-if __name__ == '__main__':
-    app.run()
-
-# Debugging, enable if necessary
-#if __name__ == '__main__':
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)

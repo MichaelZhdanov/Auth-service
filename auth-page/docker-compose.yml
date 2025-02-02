@@ -8,7 +8,8 @@ services:
     ports:
       - "5001:5000"
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
+      - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
 
@@ -19,6 +20,31 @@ services:
     ports:
       - "5002:5000"
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
+      - ./frontend:/app/frontend
+    environment:
+      - FLASK_ENV=development
+
+  auth_service_3:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
+    volumes:
+      - ./backend:/app
+      - ./frontend:/app/frontend
+    environment:
+      - FLASK_ENV=development
+
+  auth_service_4:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5000"
+    volumes:
+      - ./backend:/app
+      - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
