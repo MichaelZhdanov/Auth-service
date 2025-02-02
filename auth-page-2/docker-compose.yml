@@ -1,12 +1,5 @@
 version: '3.8'
 
-networks:
-  auth-network-2:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.25.0.0/24
-
 services:
   auth_service_3:
     build:
@@ -19,9 +12,6 @@ services:
       - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
-    networks:
-      auth-network-2:
-        ipv4_address: 172.25.0.2
 
   auth_service_4:
     build:
@@ -34,6 +24,3 @@ services:
       - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
-    networks:
-      auth-network-2:
-        ipv4_address: 172.25.0.3
