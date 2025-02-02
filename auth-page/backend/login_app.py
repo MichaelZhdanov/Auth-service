@@ -64,4 +64,8 @@ def register():
     return jsonify({"success": True, "message": "Registration successful"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+
+# Debugging, enable if necessary
+#if __name__ == '__main__':
+#    app.run(debug=True)
