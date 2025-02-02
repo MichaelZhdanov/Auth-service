@@ -12,6 +12,9 @@ services:
       - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
+    networks:
+      auth-network-1:
+        ipv4_address: 172.19.0.2
 
   auth_service_2:
     build:
@@ -24,3 +27,23 @@ services:
       - ./frontend:/app/frontend
     environment:
       - FLASK_ENV=development
+    networks:
+      auth-network-1:
+        ipv4_address: 172.19.0.3
+
+  haproxy-1:
+    image: haproxy:2.6
+    ports:
+      - "8081:80"
+    volumes:
+      - ./haproxy-1.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      auth-network-1:
+        ipv4_address: 172.19.0.10
+
+networks:
+  auth-network-1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
