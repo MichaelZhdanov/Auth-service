@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  auth_service_1:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./backend:/backend
+    environment:
+      - FLASK_ENV=development
+
+  auth_service_2:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./backend:/backend
+    environment:
+      - FLASK_ENV=development
+
+  auth_service_3:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
+    volumes:
+      - ./backend:/backend
+    environment:
+      - FLASK_ENV=development
+
+  auth_service_4:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5000"
+    volumes:
+      - ./backend:/backend
+    environment:
+      - FLASK_ENV=development
