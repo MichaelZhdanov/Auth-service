@@ -1,6 +1,4 @@
-Use build-all to build and start project for the first time on single machine. Docker and docker-compose are required.
-
-down-all for stopping, start-all for starting.
+Use 2 servers and docker-compose on them for each node.
 
 If fetching dependencies from Russian IP address, VPN/proxy might me required on certain steps :-(
 
@@ -8,10 +6,10 @@ All auth-pages are allocated to different subnets.
 
 Load between 1 - 2 (node 1) and 3 - 4 (node 2) is balanced with haproxy.
 
-Load between those nodes is balanced with keepalived (work in progress...)
+Load between those nodes is balanced with keepalived. Nodes are avaliable on port 8080 of keepavlied VIP.
+
+Keepalived does **not** run in docker, required to install in system on each server
 
 Simple python backend for registration and auth is provided.
 
-Node 1 is avaliable on localhost:8081, node 2 - localhost:8082
 
-Enjoy!
