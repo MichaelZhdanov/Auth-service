@@ -1,15 +1,8 @@
 #!/bin/bash
 
 # Use it to build all the services for the first time
-cd auth-page
+cd node1
 docker-compose up -d --build
 cd ..
-cd auth-page-2
+cd node2
 docker-compose up -d --build
-cd ..
-cd auth-page-3
-docker-compose up -d --build
-cd ..
-cd auth-page-4
-docker-compose up -d --build
-cd ..

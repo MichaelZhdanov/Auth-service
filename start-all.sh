@@ -1,15 +1,8 @@
 #!/bin/bash
 
 # Start all services if they are already built
-cd auth-page
+cd node1
 docker-compose up -d
 cd ..
-cd auth-page-2
+cd node2
 docker-compose up -d
-cd ..
-cd auth-page-3
-docker-compose up -d
-cd ..
-cd auth-page-4
-docker-compose up -d
-cd ..
