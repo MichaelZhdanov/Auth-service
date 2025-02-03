@@ -3,47 +3,48 @@ version: '3.8'
 services:
   auth_service_1:
     build:
-      context: ./backend
+      context: ./auth-page/backend
       dockerfile: Dockerfile
     ports:
-      - "5001:7000"
+      - "5011:5000"
     volumes:
-      - ./backend:/app
-      - ./frontend:/app/frontend
+      - ./auth-page/backend:/app
+      - ./auth-page/frontend:/app/frontend
     environment:
       - FLASK_ENV=development
     networks:
       auth-network-1:
-        ipv4_address: 172.29.0.2
+        ipv4_address: 172.19.0.2
 
   auth_service_2:
     build:
-      context: ./backend
+      context: ./auth-page-2/backend
       dockerfile: Dockerfile
     ports:
-      - "5002:7000"
+      - "5012:5000"
     volumes:
-      - ./backend:/app
-      - ./frontend:/app/frontend
+      - ./auth-page-2/backend:/app
+      - ./auth-page-2/frontend:/app/frontend
     environment:
       - FLASK_ENV=development
     networks:
       auth-network-1:
-        ipv4_address: 172.29.0.3
+        ipv4_address: 172.19.0.3
 
   haproxy-1:
     image: haproxy:2.6
     ports:
-      - "8083:80"
+      - "8081:80"
     volumes:
-      - ./haproxy-3.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./haproxy-1.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     networks:
       auth-network-1:
-        ipv4_address: 172.29.0.10
+        ipv4_address: 172.19.0.10
 
 networks:
+
   auth-network-1:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.29.0.0/24
+        - subnet: 172.19.0.0/24
