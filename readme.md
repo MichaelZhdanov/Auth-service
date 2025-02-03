@@ -2,6 +2,8 @@ Use build-all to build and start project for the first time on single machine. D
 
 down-all for stopping, start-all for starting.
 
+If fetching dependencies from Russian IP address, VPN/proxy might me required on certain steps :-(
+
 All auth-pages are allocated to different subnets.
 
 Load between 1 - 2 (node 1) and 3 - 4 (node 2) is balanced with haproxy.
