@@ -33,7 +33,7 @@ if __name__ == "__main__":
         test_html(html_file)
 
     if fail_count > 0:
-        print("Test unsuccessfull")
+        print("HTML test unsuccessfull")
         exit(1)
     else:
         print("HTML tests passed")
