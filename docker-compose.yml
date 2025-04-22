@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  auth_service_1:
+    build:
+      context: ./node1/auth-page/backend
+      dockerfile: Dockerfile
+    ports:
+      - "5051:5000"
+    volumes:
+      - ./node1/auth-page/backend:/app
+      - ./node1/auth-page/frontend:/app/frontend
+    environment:
+      - FLASK_ENV=development
+    networks:
+      auth-network-1:
+        ipv4_address: 172.22.0.2
+
+  auth_service_2:
+    build:
+      context: ./node1/auth-page-2/backend
+      dockerfile: Dockerfile
+    ports:
+      - "5052:5000"
+    volumes:
+      - ./node1/auth-page-2/backend:/app
+      - ./node1/auth-page-2/frontend:/app/frontend
+    environment:
+      - FLASK_ENV=development
+    networks:
+      auth-network-2:
+        ipv4_address: 172.20.0.3
+
+  haproxy-1:
+    image: haproxy:2.6
+    ports:
+      - "8080:80"
+    volumes:
+      - ./node1/haproxy-1.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      auth-network-1:
+        ipv4_address: 172.22.0.10
+      auth-network-2:
+        ipv4_address: 172.20.0.10
+
+  auth_service_3:
+    build:
+      context: ./node2/auth-page-3/backend
+      dockerfile: Dockerfile
+    ports:
+      - "5044:7000"
+    volumes:
+      - ./node2/auth-page-3/backend:/app
+      - ./node2/auth-page-3/frontend:/app/frontend
+    environment:
+      - FLASK_ENV=development
+    networks:
+      auth-network-3:
+        ipv4_address: 172.30.0.2
+
+  auth_service_4:
+    build:
+      context: ./node2/auth-page-3/backend
+      dockerfile: Dockerfile
+    ports:
+      - "5045:8000"
+    volumes:
+      - ./node2/auth-page-4/backend:/app
+      - ./node2/auth-page-4/frontend:/app/frontend
+    environment:
+      - FLASK_ENV=development
+    networks:
+      auth-network-4:
+        ipv4_address: 172.35.0.3
+
+  haproxy-2:
+    image: haproxy:2.6
+    ports:
+      - "8081:80"
+    volumes:
+      - ./node2/haproxy-2.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      auth-network-3:
+        ipv4_address: 172.30.0.10
+      auth-network-4:
+        ipv4_address: 172.35.0.10
+
+networks:
+  auth-network-1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
+        
+  auth-network-2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+  auth-network-3:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+  auth-network-4:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.35.0.0/24

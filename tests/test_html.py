@@ -32,9 +32,6 @@ if __name__ == "__main__":
     for html_file in html_files:
         test_html(html_file)
 
-        # print(f" {success_count} HTML files passed")
-        # print(f" invalid HTML files")
-
     if fail_count > 0:
         print("Test unsuccessfull")
         exit(1)
