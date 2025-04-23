@@ -26,7 +26,7 @@ for test_file in "${TEST_FILES[@]}"; do
     echo -e "${GREEN}=== Running $(basename "$test_file") ===${NC}"
     
     # Execute the test script and capture its exit code
-    python "$test_file"
+    python3 "$test_file"
     EXIT_CODE=$?
     
     if [ $EXIT_CODE -ne 0 ]; then
