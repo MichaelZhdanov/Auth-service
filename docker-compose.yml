@@ -29,7 +29,7 @@ services:
       - FLASK_ENV=development
     networks:
       auth-network-2:
-        ipv4_address: 172.20.0.3
+        ipv4_address: 172.21.0.3
 
   haproxy-1:
     image: haproxy:2.6
@@ -41,7 +41,7 @@ services:
       auth-network-1:
         ipv4_address: 172.22.0.10
       auth-network-2:
-        ipv4_address: 172.20.0.10
+        ipv4_address: 172.21.0.10
 
   auth_service_3:
     build:
@@ -96,7 +96,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/24
+        - subnet: 172.21.0.0/24
 
   auth-network-3:
     driver: bridge
